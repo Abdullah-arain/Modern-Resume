@@ -1,7 +1,13 @@
+"use client";
 import { cn } from "@/utils/cn";
 import { BackgroundGradientAnimation } from "./background-gradient-animation";
 import { Globe } from "./Globe";
 import { GlobeDemo } from "./GridGlobe";
+import { useState } from "react";
+import Lottie from "react-lottie";
+import animationData from "@/utils/confetti.json";
+import MagicButton from "./button";
+import { IoCopyOutline } from "react-icons/io5";
 
 let course = ["React", "Next.js", "TypeScript"];
 let courses = ["VueJS", "AWS", "MongoDB"];
@@ -46,6 +52,13 @@ export const BentoGridItem = ({
   titleClassName?: string;
   imgClassName?: string;
 }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText("abdullaharain1309@gmail.com");
+    setCopied(true);
+  };
+
   return (
     <div
       className={cn(
@@ -53,12 +66,12 @@ export const BentoGridItem = ({
         className
       )}
       style={{
-        background: "rgb(2,0,36)",
+        background: "rgb(4,7,29)",
         backgroundColor:
-          "linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(59,58,73,1) 14%, rgba(9,9,121,1) 45%, rgba(0,212,255,1) 100%)",
+          "linear-gradient(90deg, rgba(4,7,29,1) 0%, rgba(12, 14, 35, 1) 100%)",
       }}
     >
-      <div className={`${id === 6} && 'flex justify-center h-full`}>
+      <div className={`${id === 6 && 'flex justify-center'} h-full`}>
         <div className="w-full h-full absolute">
           {img && (
             <img
@@ -111,16 +124,49 @@ export const BentoGridItem = ({
             <div className="flex gap-1 lg:gap-5 w-fit absolute -right-3 lg:-right-2">
               <div className="flex flex-col gap-3 lg:gap-8">
                 {course.map((item) => (
-                  <span key={item} className="py-2 lg:py-4 lg:px-3 px-3 text-xs lg:text-base opacity-50 lg:opacity-100 rounded-lg ">{item}</span>
+                  <span
+                    key={item}
+                    className="py-2 lg:py-4 lg:px-3 px-3 text-xs lg:text-base opacity-50 lg:opacity-100 rounded-lg text-center bg-[#10132e]"
+                  >
+                    {item}
+                  </span>
                 ))}
                 <span className="py-4 px-3 rounded-lg text-center bg-[#10132e]" />
               </div>
               <div className="flex flex-col gap-3 lg:gap-8">
-                {courses.map((item) => (
-                  <span key={item}>{item} hello</span>
-                ))}
                 <span className="py-4 px-3 rounded-lg text-center bg-[#10132e]" />
+                {courses.map((item) => (
+                  <span
+                    key={item}
+                    className="py-2 lg:py-4 lg:px-3 px-3 text-xs lg:text-base opacity-50 lg:opacity-100 rounded-lg text-center bg-[#10132e]"
+                  >
+                    {item}
+                  </span>
+                ))}
               </div>
+            </div>
+          )}
+          {id === 6 && (
+            <div className="mt-5 relative">
+              <div className={`absolute -bottom-5 right-0`}>
+                <Lottie
+                  options={{
+                    loop: copied,
+                    autoplay: copied,
+                    animationData,
+                    rendererSettings: {
+                      preserveAspectRatio: "xMidYMid slice",
+                    },
+                  }}
+                />
+              </div>
+
+              <MagicButton 
+              title={copied ? 'Email Copied' : 'Copy my Email'} 
+              icon={<IoCopyOutline/>}
+              position="left"
+              otherClasses="!bg-[#161a31]"
+              handleClick={handleCopy}/>
             </div>
           )}
         </div>
